@@ -1,0 +1,58 @@
+# Copyright (C) 2017 Daniel Page <csdsp@bristol.ac.uk>
+#
+# Use of this source code is restricted per the CC BY-NC-ND license, a copy of 
+# which can be found via http://creativecommons.org (and should be included as 
+# LICENSE.txt within the associated archive or repository).
+
+Vagrant.configure( "2" ) do |config|
+  # define base box
+  config.vm.box = "ubuntu/bionic64"
+
+  # configure SSH-based access
+  config.ssh.forward_agent = true
+  config.ssh.forward_x11   = true
+
+  # provisioning step: general-purpose prologue
+  config.vm.provision "prologue", type: "shell", preserve_order: true, run: "once", inline: <<-SHELL
+    # package manager: update
+    sudo apt-get --quiet --assume-yes update
+        
+    # software install: system
+    sudo apt-get --quiet --assume-yes install gcc 
+    sudo apt-get --quiet --assume-yes install git
+    sudo apt-get --quiet --assume-yes install make
+    sudo apt-get --quiet --assume-yes install wget
+    sudo apt-get --quiet --assume-yes install xauth
+  SHELL
+
+  # provisioning step: special-purpose wrt. unit
+  config.vm.provision "unit",     type: "shell", preserve_order: true, run: "once", inline: <<-SHELL
+    # software install: system
+    sudo apt-get --quiet --assume-yes install default-jre 
+
+    # software install: logisim
+    sudo wget --quiet https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-generic-2.7.1.jar
+    sudo install -D --target-directory=/opt/logisim logisim-generic-2.7.1.jar
+    sudo rm --force logisim-generic-2.7.1.jar
+    
+    # teaching material: download
+    for SHEET in 1 2 3 4 5 6 7 ; do
+      sudo wget --quiet --directory-prefix /home/vagrant/COMS12200 http://assets.phoo.org/COMS12200_2019_TB-4/csdsp/arch/sheet/lab-${SHEET}_q.pdf
+      sudo wget --quiet --directory-prefix /home/vagrant/COMS12200 http://assets.phoo.org/COMS12200_2019_TB-4/csdsp/arch/sheet/lab-${SHEET}_q.tar.gz
+    done
+
+    # teaching material: unarchive 
+    for SHEET in 1 2 3 4 5 6 7 ; do
+      sudo tar --extract --gunzip --directory /home/vagrant/COMS12200 --file /home/vagrant/COMS12200/lab-${SHEET}_q.tar.gz
+    done
+    
+    # teaching material: permissions
+    sudo chown --recursive vagrant:vagrant /home/vagrant/COMS12200
+  SHELL
+
+  # provisioning step: general-purpose epilogue
+  config.vm.provision "epilogue", type: "shell", preserve_order: true, run: "once", inline: <<-SHELL
+    # package manager: clean 
+    sudo apt-get clean
+  SHELL
+end
