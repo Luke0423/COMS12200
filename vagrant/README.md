@@ -57,6 +57,12 @@
 
      - [edit](https://www.vagrantup.com/docs/vagrantfile) 
        the resulting `Vagrantfile` to suit any specific requirements,
+       e.g., enable X11 forwarding by adding the lines
+
+       ```
+       config.ssh.forward_agent = true
+       config.ssh.forward_x11   = true
+       ```
 
      - execute
 
@@ -74,7 +80,7 @@
   vagrant ssh
   ```
 
-  Note that relevant teaching material was pre-downloaded into
+  Note that relevant teaching material was *pre-downloaded* into
   `/home/vagrant/COMS12200`
   during the provisioning step.
 
