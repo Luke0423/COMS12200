@@ -12,6 +12,9 @@ Vagrant.configure( "2" ) do |config|
   config.ssh.forward_agent = true
   config.ssh.forward_x11   = true
 
+  # configure shared folder between host and guest
+  config.vm.synced_folder "./share", "/home/vagrant/share"
+
   # provisioning step: general-purpose prologue
   config.vm.provision "prologue", type: "shell", preserve_order: true, run: "once", path: "provision_prologue.sh",
                                   env: { "UNIT_CODE" => "COMS12200", "UNIT_YEAR" => "2019", "UNIT_PATH" => "COMS12200_2019_TB-4" }

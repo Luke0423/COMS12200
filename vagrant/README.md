@@ -1,4 +1,4 @@
-# A Vagrant-based VM for [COMS12200](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa?unitCode=COMS12200)
+# [COMS12200](https://www.bris.ac.uk/unit-programme-catalogue/UnitDetails.jsa?unitCode=COMS12200) VM configuration
 
 <!--- -------------------------------------------------------------------- --->
 
@@ -7,7 +7,18 @@
   - [VirtualBox](https://www.virtualbox.org)
     (including any extension packs necessary, e.g., for USB device support)
     and
-  - [Vagrant](https://www.vagrantup.com).
+  - [Vagrant](https://www.vagrantup.com),
+
+  noting that
+  some features of the VM
+  (e.g., access to USB devices)
+  *may* demand you are a member of the
+  [`vboxusers`](https://www.virtualbox.org/manual/ch02.html#install-linux-vboxusers);
+  group; you can ensure this by executing
+
+  ```sh
+  sudo usermod --append --groups vboxusers ${USER}
+  ```
 
 - Launch the VM using *either* of the following approaches:
 
@@ -81,16 +92,16 @@
   vagrant ssh
   ```
 
-  Note that 
+  noting that
 
-  - relevant teaching material will have been *pre-downloaded* into
-    `/home/vagrant/COMS12200`
-    during the provisioning step,
-  - to use some features of the VM, you may need to be a member of
-    the group `vboxusers`; you can ensure this, e.g., by executing
-
-    ```sh
-    sudo usermod --append --groups vboxusers ${USER}
-    ```
+  - `/home/vagrant/COMS12200`
+    will house
+    relevant teaching material *pre-downloaded* during the provisioning step,
+    and
+  - `/home/vagrant/share`
+    will represent
+    a 
+    [shared folder](https://www.virtualbox.org/manual/ch04.html#sharedfolders), 
+    allowing transfer of data to and from the host and guest.
 
 <!--- -------------------------------------------------------------------- --->
