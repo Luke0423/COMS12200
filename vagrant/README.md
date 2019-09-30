@@ -81,9 +81,16 @@
   vagrant ssh
   ```
 
-  Note that relevant teaching material will have been *pre-downloaded* 
-  into
-  `/home/vagrant/COMS12200`
-  during the provisioning step.
+  Note that 
+
+  - relevant teaching material will have been *pre-downloaded* into
+    `/home/vagrant/COMS12200`
+    during the provisioning step,
+  - to use some features of the VM, you may need to be a member of
+    the group `vboxusers`; you can ensure this, e.g., by executing
+
+    ```sh
+    sudo usermod --append --groups vboxusers ${USER}
+    ```
 
 <!--- -------------------------------------------------------------------- --->
