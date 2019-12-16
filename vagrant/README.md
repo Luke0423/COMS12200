@@ -33,7 +33,7 @@
      - execute
 
        ```sh
-       git clone --branch 2019 https://www.github.com/danpage/COMS12200.git ./COMS12200
+       git clone --branch COMS12200_2019 https://www.github.com/danpage/COMS12200.git ./COMS12200
        cd ./COMS12200/vagrant
        ```
 
